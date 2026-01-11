@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/aruzhanabilmazhin/cse341node#readme",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "mongodb": "^7.0.0"
   }
 }
