@@ -1,36 +1,36 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: './.env' }); // Load environment variables
+dotenv.config({ path: './.env' });
 
 import express from 'express';
-import database from './routes/data/database.js'; // your database.js
+import { initDb } from './routes/data/database.js'; // ✅ именованный импорт
 import routes from './routes/index.js'; // main routes file
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware to parse JSON
+// JSON middleware
 app.use(express.json());
 
-// Test that MONGODB_URI is loaded
+// Проверка переменной окружения
 console.log('MONGODB_URI =', process.env.MONGODB_URI);
 
-// Initialize DB first
-database.initDb((err) => {
+// Инициализация базы данных
+initDb((err) => {
   if (err) {
     console.error('Error connecting to DB:', err);
-    process.exit(1); // stop server if DB connection fails
+    process.exit(1);
   } else {
     console.log('Database connected successfully');
 
-    // Mount routes AFTER DB is ready
+    // Подключаем маршруты после инициализации БД
     app.use('/', routes);
 
-    // Optional: basic test route
+    // Health check
     app.get('/health', (req, res) => res.send('Server is running'));
 
-    // Start the server
+    // Запуск сервера
     app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+      console.log(`Server running on port ${port}`);
     });
   }
 });

@@ -4,9 +4,19 @@ Accept: application/json
 
 ###
 
-### Get a single contact by ID
-# Replace the ID below with a real one from your database
-GET http://localhost:3000/contacts/64cfae2b1234567890abcdef
-Accept: application/json
+### Create a new contact
+POST http://localhost:3000/contacts
+Content-Type: application/json
+
+{
+  "name": "Alice",
+  "phone": "123-456-7890",
+  "email": "alice@example.com"
+}
 
 ###
+
+### Get a single contact by ID
+# Replace <id> with the actual ID returned from the POST response
+GET http://localhost:3000/contacts/<id>
+Accept: application/json

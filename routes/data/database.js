@@ -1,38 +1,26 @@
-import mongodb from 'mongodb';
+import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
 
-let _db;
+dotenv.config({ path: '../../.env' }); // путь к твоему .env
 
-const initDb = (callback) => {
-  if (_db) {
-    console.log('DB already initialized');
-    return callback(null, _db);
+let db; // сюда сохраняем подключение к базе
+
+// Инициализация базы данных
+export const initDb = async (callback) => {
+  try {
+    const client = new MongoClient(process.env.MONGODB_URI);
+    await client.connect();
+    db = client.db(); // по умолчанию берём базу из URI
+    console.log('✅ Connected to MongoDB');
+    callback();
+  } catch (err) {
+    console.error('❌ Failed to connect to MongoDB', err);
+    callback(err);
   }
-
-  const uri = process.env.MONGODB_URI;
-
-  if (!uri) {
-    return callback(new Error('MONGODB_URI is not defined in .env'));
-  }
-
-  mongodb.MongoClient.connect(uri)
-    .then((client) => {
-      _db = client.db();
-      console.log('MongoDB connected');
-      callback(null, _db);
-    })
-    .catch((err) => {
-      callback(err);
-    });
 };
 
-const getDb = () => {
-  if (!_db) {
-    throw new Error('Db not initialized');
-  }
-  return _db;
-};
-
-export default {
-  initDb,
-  getDb
+// Получение экземпляра базы данных
+export const getDb = () => {
+  if (!db) throw new Error('Database not initialized');
+  return db;
 };
