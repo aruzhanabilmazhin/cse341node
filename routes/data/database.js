@@ -8,9 +8,16 @@ const initDb = (callback) => {
     return callback(null, _db);
   }
 
-  mongodb.MongoClient.connect(process.env.MONGODB_URL)
+  const uri = process.env.MONGODB_URI;
+
+  if (!uri) {
+    return callback(new Error('MONGODB_URI is not defined in .env'));
+  }
+
+  mongodb.MongoClient.connect(uri)
     .then((client) => {
       _db = client.db();
+      console.log('MongoDB connected');
       callback(null, _db);
     })
     .catch((err) => {
