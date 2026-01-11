@@ -1,5 +1,9 @@
-const router=require('express').Router();
+import express from 'express';
 
-router.get('/', (req,res)=> {res.send('Helo,World');});
+const router = express.Router();
 
-module.exports=router;
+router.get('/', (req, res) => {
+  res.send('API is running');
+});
+
+export default router;

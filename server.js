@@ -1,12 +1,21 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
+import mongodb from './routes/data/database.js';
+import routes from './routes/index.js';
 
 const app = express();
-const PORT = 3000;
+const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.send('Server works!');
-});
+app.use('/', routes);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+mongodb.initDb((err) => {
+  if (err) {
+    console.error(err);
+  } else {
+    app.listen(port, () => {
+      console.log(`Database is running and Node running on port ${port}`);
+    });
+  }
 });
