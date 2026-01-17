@@ -1,22 +1,49 @@
-### Get all contacts
+### =========================
+### GET all contacts
+### =========================
 GET http://localhost:3000/contacts
 Accept: application/json
 
-###
 
-### Create a new contact
+### =========================
+### CREATE a new contact
+### =========================
 POST http://localhost:3000/contacts
 Content-Type: application/json
 
 {
-  "name": "Alice",
-  "phone": "123-456-7890",
-  "email": "alice@example.com"
+  "firstName": "Alice",
+  "lastName": "Johnson",
+  "email": "alice@example.com",
+  "favoriteColor": "Blue",
+  "birthday": "2001-05-12"
 }
 
-###
 
-### Get a single contact by ID
-# Replace <id> with the actual ID returned from the POST response
-GET http://localhost:3000/contacts/<id>
+### =========================
+### GET a contact by ID
+### (replace ID with one returned from POST)
+### =========================
+GET http://localhost:3000/contacts/6870a4b218d6a3ee4c659db7
 Accept: application/json
+
+
+### =========================
+### UPDATE a contact
+### =========================
+PUT http://localhost:3000/contacts/6870a4c318d6a3ee4c659db8
+Content-Type: application/json
+
+{
+  "firstName": "Alice",
+  "lastName": "Smith",
+  "email": "alice.smith@example.com",
+  "favoriteColor": "Green",
+  "birthday": "2001-05-12"
+}
+
+
+### =========================
+### DELETE a contact
+### =========================
+DELETE http://localhost:3000/contacts/6870a56018d6a3ee4c659dbb

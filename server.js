@@ -2,14 +2,22 @@ import dotenv from 'dotenv';
 dotenv.config({ path: './.env' });
 
 import express from 'express';
-import { initDb } from './routes/data/database.js'; // ✅ именованный импорт
+import { initDb } from './routes/data/database.js'; // ✅ named import
 import routes from './routes/index.js'; // main routes file
+
+// ✅ Swagger imports (ADDED)
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swagger.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 // JSON middleware
 app.use(express.json());
+
+// Swagger middleware (ADDED)
+// ⚠️ Must be BEFORE routes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Проверка переменной окружения
 console.log('MONGODB_URI =', process.env.MONGODB_URI);
