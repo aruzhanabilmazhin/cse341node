@@ -13,7 +13,7 @@ const options = {
     },
     servers: [
       {
-        url: process.env.SWAGGER_URL || 'http://localhost:3000'
+        url: process.env.SWAGGER_URL || 'https://cse341node-q0o5.onrender.com/'
       }
     ]
   },
