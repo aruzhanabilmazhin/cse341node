@@ -1,7 +1,9 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './.env' }); // make sure .env is in project root
+dotenv.config({ path: './.env' });
+
+console.log('Swagger server URL =', process.env.SWAGGER_URL);
 
 const options = {
   definition: {
@@ -13,11 +15,11 @@ const options = {
     },
     servers: [
       {
-        url: process.env.SWAGGER_URL || 'https://cse341node-q0o5.onrender.com/'
+        url: process.env.SWAGGER_URL || 'https://cse341node-q0o5.onrender.com'
       }
     ]
   },
-  apis: ['./routes/*.js'] // Swagger will read comments from your routes folder
+  apis: ['./routes/*.js', './routes/**/*.js']
 };
 
 export const swaggerSpec = swaggerJsdoc(options);

@@ -2,10 +2,9 @@ import dotenv from 'dotenv';
 dotenv.config({ path: './.env' });
 
 import express from 'express';
-import { initDb } from './routes/data/database.js'; // ✅ named import
-import routes from './routes/index.js'; // main routes file
-
-// ✅ Swagger imports (ADDED)
+import cors from 'cors';
+import { initDb } from './routes/data/database.js';
+import routes from './routes/index.js';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger.js';
 
@@ -15,8 +14,10 @@ const port = process.env.PORT || 3000;
 // JSON middleware
 app.use(express.json());
 
-// Swagger middleware (ADDED)
-// ⚠️ Must be BEFORE routes
+// CORS middleware
+app.use(cors());
+
+// Swagger middleware — должно быть ДО маршрутов
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Проверка переменной окружения
@@ -30,7 +31,7 @@ initDb((err) => {
   } else {
     console.log('Database connected successfully');
 
-    // Подключаем маршруты после инициализации БД
+    // Маршруты
     app.use('/', routes);
 
     // Health check
